@@ -4,8 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <title>HideAndSeek map test v0.1</title>
+  <link rel="stylesheet" href="css/baseStyle.css">
   <link rel="stylesheet" href="css/style.css">
+  <!--region Meta lines -->
   <meta name="description" content="">
 
   <meta property="og:title" content="">
@@ -20,12 +22,20 @@
 
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#fafafa">
+  <!--endregion-->
+
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 </head>
 
 <body>
 
   <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
+<!--  <p>Hello world! This is HTML5 Boilerplate.</p>-->
+
+  <div id="map"></div>
+
+  <script src="js/map.js"></script>
   <script src="js/app.js"></script>
 
 </body>
