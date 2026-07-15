@@ -54,13 +54,64 @@ map.on('load', () => {
 });
 
 //circle zone with inner infill
+// const zoneCenter = [-3.82, 55.72]; // [lng, lat]
+// const zoneRadiusKm = 0.5; // 500m
+//
+// const zone = turf.circle(zoneCenter, zoneRadiusKm, { units: 'kilometers' });
+//
+// map.on('load', () => {
+//   map.addSource('zone', { type: 'geojson', data: zone });
+//
+//   map.addLayer({
+//     id: 'zone-fill',
+//     type: 'fill',
+//     source: 'zone',
+//     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.15 }
+//   });
+//
+//   map.addLayer({
+//     id: 'zone-outline',
+//     type: 'line',
+//     source: 'zone',
+//     paint: { 'line-color': '#3388ff', 'line-width': 2 }
+//   });
+// });
+
+//circle zone with inner infill + inverse mask
 const zoneCenter = [-3.82, 55.72]; // [lng, lat]
 const zoneRadiusKm = 0.5; // 500m
 
 const zone = turf.circle(zoneCenter, zoneRadiusKm, { units: 'kilometers' });
 
+const outerRing = [
+  [-180, -85],
+  [180, -85],
+  [180, 85],
+  [-180, 85],
+  [-180, -85]
+];
+const innerRing = zone.geometry.coordinates[0];
+
+const mask = {
+  type: 'Feature',
+  properties: {},
+  geometry: {
+    type: 'Polygon',
+    coordinates: [outerRing, innerRing]
+  }
+};
+
 map.on('load', () => {
   map.addSource('zone', { type: 'geojson', data: zone });
+  map.addSource('mask', { type: 'geojson', data: mask });
+
+  // mask first so it sits underneath the zone outline/fill
+  map.addLayer({
+    id: 'mask-layer',
+    type: 'fill',
+    source: 'mask',
+    paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.6 }
+  });
 
   map.addLayer({
     id: 'zone-fill',
