@@ -260,6 +260,8 @@ map.on('touchstart', (e) => {
     newCircleZone(coords.lng, coords.lat, coords.lng);
   }, 700);
 });
+map.on('touchend', (e) => {clearInterval(pressTimer);});
+map.on('touchmove', (e) => {clearInterval(pressTimer);});
 
 function newCircleZone(lng, lat) {
   console.log(lng, lat);
