@@ -1,5 +1,6 @@
 import { map } from './map-init.js';
-import { zoneRadiusKm, outerRing } from './config.js';
+import { zoneRadiusKm, outerRing, players } from './config.js';
+import { SendMessage } from './network/websocketManager.js';
 
 export let zones = [];
 
@@ -94,6 +95,13 @@ export function newCircleZone(lng, lat) {
   const zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
   zones.push(zone);
   rebuildSources();
+  SendMessage({
+    position: {
+      lat: lat,
+      lng: lng,
+    },
+    radius: zoneRadiusKm
+  });
 }
 
 export function isPlayerInAnyZone(playerLngLat) {

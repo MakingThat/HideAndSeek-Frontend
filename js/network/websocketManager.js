@@ -1,28 +1,34 @@
 import { wsUri } from '../config.js';
+import { newCircleZone } from "../zones.js";
 
 let websocket = null;
+let counter = 0;
+let pingInterval = null;
 
 function initializeWebSocketListeners(ws) {
   ws.addEventListener("open", () => {
-    log("CONNECTED");
-    let pingInterval = setInterval(() => {
-      log(`SENT: ping: ${counter}`);
-      ws.send("ping");
-    }, 1000);
+    console.log("CONNECTED");
+    // pingInterval = setInterval(() => {
+    //   console.log(`SENT: ping: ${counter}`);
+    //   ws.send("ping");
+    // }, 1000);
   });
 
   ws.addEventListener("close", () => {
-    log("DISCONNECTED");
+    console.log("DISCONNECTED");
     clearInterval(pingInterval);
   });
 
   ws.addEventListener("message", (e) => {
-    log(`RECEIVED: ${e.data}: ${counter}`);
+    console.log(`RECEIVED: ${e.data}: ${counter}`);
     counter++;
+
+    const data = JSON.parse(e.data);
+    newCircleZone(data.position.lng, data.position.lng);
   });
 
   ws.addEventListener("error", (e) => {
-    log(`ERROR`);
+    console.log(`ERROR`);
   });
 }
 
@@ -33,6 +39,22 @@ window.addEventListener("pageshow", (event) => {
   }
 });
 
-log("OPENING");
-websocket = new WebSocket(wsUri);
-initializeWebSocketListeners(websocket);
+// window.addEventListener("load", function() {
+//   console.log("OPENING");
+//   websocket = new WebSocket(wsUri);
+//   initializeWebSocketListeners(websocket);
+// });
+
+export function openWebsocket() {
+  console.log("OPENING");
+  websocket = new WebSocket(wsUri);
+  initializeWebSocketListeners(websocket);
+}
+
+export function SendMessage(message) {
+  if (!websocket || websocket.readyState !== WebSocket.OPEN) {
+    console.warn("Websocket error: " + message);
+    return false;
+  }
+  websocket.send(JSON.stringify(message));
+}
