@@ -32,8 +32,6 @@ function toGeoJSON(players) {
 }
 
 map.on('load', () => {
-  // forehead = map.loadImage('./img/FOREHEAD.png');
-  // map.addImage('kev', forehead.data);
 
   map.addSource('players', { type: 'geojson', data: toGeoJSON(players) });
   map.addLayer({
@@ -82,11 +80,59 @@ map.on('load', () => {
 // });
 
 //circle zone with inner infill + inverse mask
-const zoneCenter = [-3.82, 55.72]; // [lng, lat]
+// const zoneCenter = [-3.82, 55.72]; // [lng, lat]
+// const zoneRadiusKm = 0.5; // 500m
+//
+// const zone = turf.circle(zoneCenter, zoneRadiusKm, { units: 'kilometers' });
+//
+// const outerRing = [
+//   [-180, -85],
+//   [180, -85],
+//   [180, 85],
+//   [-180, 85],
+//   [-180, -85]
+// ];
+// const innerRing = zone.geometry.coordinates[0];
+//
+// const mask = {
+//   type: 'Feature',
+//   properties: {},
+//   geometry: {
+//     type: 'Polygon',
+//     coordinates: [outerRing, innerRing]
+//   }
+// };
+//
+// map.on('load', () => {
+//   map.addSource('zone', { type: 'geojson', data: zone });
+//   map.addSource('mask', { type: 'geojson', data: mask });
+//
+//   // mask first so it sits underneath the zone outline/fill
+//   map.addLayer({
+//     id: 'mask-layer',
+//     type: 'fill',
+//     source: 'mask',
+//     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.6 }
+//   });
+//
+//   map.addLayer({
+//     id: 'zone-fill',
+//     type: 'fill',
+//     source: 'zone',
+//     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.15 }
+//   });
+//
+//   map.addLayer({
+//     id: 'zone-outline',
+//     type: 'line',
+//     source: 'zone',
+//     paint: { 'line-color': '#3388ff', 'line-width': 2 }
+//   });
+// });
+
 const zoneRadiusKm = 0.5; // 500m
 
-const zone = turf.circle(zoneCenter, zoneRadiusKm, { units: 'kilometers' });
-
+let zone = turf.circle([0,0], zoneRadiusKm, { units: 'kilometers' });
 const outerRing = [
   [-180, -85],
   [180, -85],
@@ -94,27 +140,21 @@ const outerRing = [
   [-180, 85],
   [-180, -85]
 ];
-const innerRing = zone.geometry.coordinates[0];
-
-const mask = {
+let mask = {
   type: 'Feature',
   properties: {},
-  geometry: {
-    type: 'Polygon',
-    coordinates: [outerRing, innerRing]
-  }
-};
+  geometry: {type: 'Polygon', coordinates: [outerRing, zone.geometry.coordinates[0]]},
+}
 
 map.on('load', () => {
   map.addSource('zone', { type: 'geojson', data: zone });
   map.addSource('mask', { type: 'geojson', data: mask });
 
-  // mask first so it sits underneath the zone outline/fill
   map.addLayer({
     id: 'mask-layer',
     type: 'fill',
     source: 'mask',
-    paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.6 }
+    paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.6 },
   });
 
   map.addLayer({
@@ -130,7 +170,21 @@ map.on('load', () => {
     source: 'zone',
     paint: { 'line-color': '#3388ff', 'line-width': 2 }
   });
-});
+
+  map.on('contextmenu', (e) => {
+    console.log(e.lngLat);
+    const zoneCentre = [e.lngLat.lng, e.lngLat.lat];
+    zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
+    mask = {
+      type: 'Feature',
+      properties: {},
+      geometry: {type: 'Polygon', coordinates: [outerRing, zone.geometry.coordinates[0]]},
+    }
+
+    map.getSource('zone').setData(zone);
+    map.getSource('mask').setData(mask);
+  })
+})
 
 //image drawing on screen
 map.on('load', async () => {
