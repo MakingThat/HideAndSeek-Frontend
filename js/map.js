@@ -131,8 +131,6 @@ map.on('load', () => {
 // });
 
 const zoneRadiusKm = 0.5; // 500m
-
-let zone = turf.circle([0,0], zoneRadiusKm, { units: 'kilometers' });
 const outerRing = [
   [-180, -85],
   [180, -85],
@@ -140,49 +138,84 @@ const outerRing = [
   [-180, 85],
   [-180, -85]
 ];
-let mask = {
-  type: 'Feature',
-  properties: {},
-  geometry: {type: 'Polygon', coordinates: [outerRing, zone.geometry.coordinates[0]]},
+
+let zones = [];
+
+function rebuildSources() {
+  const zoneCollection = {
+    type: 'FeatureCollection',
+    features: zones
+  };
+
+  let mergedZones = zones[0] || null;
+  for ( let i = 1; i < zones.length; i++ ) {
+    mergedZones = turf.union(mergedZones, zones[i]);
+  }
+
+  const holeRings = [];
+  const outlineFeatures = [];
+  if (mergedZones) {
+    if (mergedZones.geometry.type === 'Polygon') {
+      holeRings.push(mergedZones.geometry.coordinates[0]);
+      outlineFeatures.push(mergedZones);
+    } else if (mergedZones.geometry.type === 'MultiPolygon') {
+      mergedZones.geometry.coordinates.forEach(poly => {
+        holeRings.push(poly[0]);
+        outlineFeatures.push(turf.polygon(poly));
+      });
+    }
+  }
+
+  const mask = {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'Polygon',
+      coordinates: [outerRing, ...holeRings]
+    }
+  };
+
+  map.getSource('zone').setData(zoneCollection);
+  map.getSource('zones-outline-src').setData({type: 'FeatureCollection', features: outlineFeatures});
+  map.getSource('mask').setData(mask);
+
+  map.setLayoutProperty('mask-layer', 'visibility', zones.length > 0 ? 'visible' : 'none');
 }
 
+
 map.on('load', () => {
-  map.addSource('zone', { type: 'geojson', data: zone });
-  map.addSource('mask', { type: 'geojson', data: mask });
+  map.addSource('zone', { type: 'geojson', data: {type: 'FeatureCollection', features: []} });
+  map.addSource('zones-outline-src', { type: 'geojson', data: {type: 'FeatureCollection', features: []} } );
+  map.addSource('mask', { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [outerRing] } } });
 
   map.addLayer({
     id: 'mask-layer',
     type: 'fill',
     source: 'mask',
     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.6 },
+    Layout: { visibility: 'none' }//hidden until first zone exists
   });
 
   map.addLayer({
     id: 'zone-fill',
     type: 'fill',
-    source: 'zone',
+    source: 'zones-outline-src',
     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.15 }
   });
 
   map.addLayer({
     id: 'zone-outline',
     type: 'line',
-    source: 'zone',
+    source: 'zones-outline-src',
     paint: { 'line-color': '#3388ff', 'line-width': 2 }
   });
 
   map.on('contextmenu', (e) => {
     console.log(e.lngLat);
     const zoneCentre = [e.lngLat.lng, e.lngLat.lat];
-    zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
-    mask = {
-      type: 'Feature',
-      properties: {},
-      geometry: {type: 'Polygon', coordinates: [outerRing, zone.geometry.coordinates[0]]},
-    }
-
-    map.getSource('zone').setData(zone);
-    map.getSource('mask').setData(mask);
+    const zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
+    zones.push(zone);
+    rebuildSources();
   })
 })
 
@@ -217,3 +250,4 @@ map.on('load', async () => {
 });
 
 console.log(toGeoJSON(players));
+console.log(turf.version);
