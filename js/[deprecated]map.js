@@ -3,22 +3,22 @@ const players = [
   { id: 'player2', lat: 55.93621741103109, lng: -4.827277395396694 } //Scott 55.93621741103109, -4.827277395396694
 ];
 
-const map = new maplibregl.Map({
-  container: 'map',
+const deprecatedMap = new maplibregl.Map({
+  container: 'deprecatedMap',
   style: 'https://tiles.openfreemap.org/styles/liberty',
   center: [players[0].lng, players[0].lat],
   zoom: 13,
   maxBounds: [
-    [-4.910306, 55.655944], //55°39'21.4"N 4°54'37.1"W southwest corner of map (off the coast at adrasson)
-    [-3.744528, 55.959361] //55°57'33.7"N 3°44'40.3"W northeast corner of map (kinda near falkirk)
+    [-4.910306, 55.655944], //55°39'21.4"N 4°54'37.1"W southwest corner of deprecatedMap (off the coast at adrasson)
+    [-3.744528, 55.959361] //55°57'33.7"N 3°44'40.3"W northeast corner of deprecatedMap (kinda near falkirk)
   ],
 
 });
 
-map.dragRotate.disable();
-map.touchZoomRotate.disableRotation();
+deprecatedMap.dragRotate.disable();
+deprecatedMap.touchZoomRotate.disableRotation();
 
-map.addControl(new maplibregl.NavigationControl());
+deprecatedMap.addControl(new maplibregl.NavigationControl());
 
 function toGeoJSON(players) {
   return {
@@ -31,10 +31,10 @@ function toGeoJSON(players) {
   };
 }
 
-map.on('load', () => {
+deprecatedMap.on('load', () => {
 
-  map.addSource('players', { type: 'geojson', data: toGeoJSON(players) });
-  map.addLayer({
+  deprecatedMap.addSource('players', { type: 'geojson', data: toGeoJSON(players) });
+  deprecatedMap.addLayer({
     id: 'player-points',
     type: 'circle',
     source: 'players',
@@ -46,7 +46,7 @@ map.on('load', () => {
     },
   });
 
-  map.addSource('scott', {
+  deprecatedMap.addSource('scott', {
     type: 'geojson',
     data: {
       type: 'Feature',
@@ -61,17 +61,17 @@ map.on('load', () => {
 //
 // const zone = turf.circle(zoneCenter, zoneRadiusKm, { units: 'kilometers' });
 //
-// map.on('load', () => {
-//   map.addSource('zone', { type: 'geojson', data: zone });
+// deprecatedMap.on('load', () => {
+//   deprecatedMap.addSource('zone', { type: 'geojson', data: zone });
 //
-//   map.addLayer({
+//   deprecatedMap.addLayer({
 //     id: 'zone-fill',
 //     type: 'fill',
 //     source: 'zone',
 //     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.15 }
 //   });
 //
-//   map.addLayer({
+//   deprecatedMap.addLayer({
 //     id: 'zone-outline',
 //     type: 'line',
 //     source: 'zone',
@@ -103,26 +103,26 @@ map.on('load', () => {
 //   }
 // };
 //
-// map.on('load', () => {
-//   map.addSource('zone', { type: 'geojson', data: zone });
-//   map.addSource('mask', { type: 'geojson', data: mask });
+// deprecatedMap.on('load', () => {
+//   deprecatedMap.addSource('zone', { type: 'geojson', data: zone });
+//   deprecatedMap.addSource('mask', { type: 'geojson', data: mask });
 //
 //   // mask first so it sits underneath the zone outline/fill
-//   map.addLayer({
+//   deprecatedMap.addLayer({
 //     id: 'mask-layer',
 //     type: 'fill',
 //     source: 'mask',
 //     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.6 }
 //   });
 //
-//   map.addLayer({
+//   deprecatedMap.addLayer({
 //     id: 'zone-fill',
 //     type: 'fill',
 //     source: 'zone',
 //     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.15 }
 //   });
 //
-//   map.addLayer({
+//   deprecatedMap.addLayer({
 //     id: 'zone-outline',
 //     type: 'line',
 //     source: 'zone',
@@ -141,85 +141,85 @@ const outerRing = [
 
 let zones = [];
 
-function rebuildSources() {
-  const zoneCollection = {
-    type: 'FeatureCollection',
-    features: zones
-  };
+// function rebuildSources() {
+//   const zoneCollection = {
+//     type: 'FeatureCollection',
+//     features: zones
+//   };
+//
+//   let mergedZones = zones[0] || null;
+//   for ( let i = 1; i < zones.length; i++ ) {
+//     mergedZones = turf.union(mergedZones, zones[i]);
+//   }
+//
+//   const holeRings = [];
+//   const outlineFeatures = [];
+//   if (mergedZones) {
+//     if (mergedZones.geometry.type === 'Polygon') {
+//       holeRings.push(mergedZones.geometry.coordinates[0]);
+//       outlineFeatures.push(mergedZones);
+//     } else if (mergedZones.geometry.type === 'MultiPolygon') {
+//       mergedZones.geometry.coordinates.forEach(poly => {
+//         holeRings.push(poly[0]);
+//         outlineFeatures.push(turf.polygon(poly));
+//       });
+//     }
+//   }
+//
+//   const mask = {
+//     type: 'Feature',
+//     properties: {},
+//     geometry: {
+//       type: 'Polygon',
+//       coordinates: [outerRing, ...holeRings]
+//     }
+//   };
+//
+//   deprecatedMap.getSource('zone').setData(zoneCollection);
+//   deprecatedMap.getSource('zones-outline-src').setData({type: 'FeatureCollection', features: outlineFeatures});
+//   deprecatedMap.getSource('mask').setData(mask);
+//
+//   deprecatedMap.setLayoutProperty('mask-layer', 'visibility', zones.length > 0 ? 'visible' : 'none');
+// }
 
-  let mergedZones = zones[0] || null;
-  for ( let i = 1; i < zones.length; i++ ) {
-    mergedZones = turf.union(mergedZones, zones[i]);
-  }
 
-  const holeRings = [];
-  const outlineFeatures = [];
-  if (mergedZones) {
-    if (mergedZones.geometry.type === 'Polygon') {
-      holeRings.push(mergedZones.geometry.coordinates[0]);
-      outlineFeatures.push(mergedZones);
-    } else if (mergedZones.geometry.type === 'MultiPolygon') {
-      mergedZones.geometry.coordinates.forEach(poly => {
-        holeRings.push(poly[0]);
-        outlineFeatures.push(turf.polygon(poly));
-      });
-    }
-  }
+deprecatedMap.on('load', () => {
+  deprecatedMap.addSource('zone', { type: 'geojson', data: {type: 'FeatureCollection', features: []} });
+  deprecatedMap.addSource('zones-outline-src', { type: 'geojson', data: {type: 'FeatureCollection', features: []} } );
+  deprecatedMap.addSource('mask', { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [outerRing] } } });
 
-  const mask = {
-    type: 'Feature',
-    properties: {},
-    geometry: {
-      type: 'Polygon',
-      coordinates: [outerRing, ...holeRings]
-    }
-  };
-
-  map.getSource('zone').setData(zoneCollection);
-  map.getSource('zones-outline-src').setData({type: 'FeatureCollection', features: outlineFeatures});
-  map.getSource('mask').setData(mask);
-
-  map.setLayoutProperty('mask-layer', 'visibility', zones.length > 0 ? 'visible' : 'none');
-}
-
-
-map.on('load', () => {
-  map.addSource('zone', { type: 'geojson', data: {type: 'FeatureCollection', features: []} });
-  map.addSource('zones-outline-src', { type: 'geojson', data: {type: 'FeatureCollection', features: []} } );
-  map.addSource('mask', { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [outerRing] } } });
-
-  map.addLayer({
+  deprecatedMap.addLayer({
     id: 'mask-layer',
     type: 'fill',
     source: 'mask',
     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.6 },
-    Layout: { visibility: 'none' }//hidden until first zone exists
+    layout: { visibility: 'none' }//hidden until first zone exists
   });
 
-  map.addLayer({
+  deprecatedMap.addLayer({
     id: 'zone-fill',
     type: 'fill',
     source: 'zones-outline-src',
     paint: { 'fill-color': '#3388ff', 'fill-opacity': 0.15 }
   });
 
-  map.addLayer({
+  deprecatedMap.addLayer({
     id: 'zone-outline',
     type: 'line',
     source: 'zones-outline-src',
     paint: { 'line-color': '#3388ff', 'line-width': 2 }
   });
 
-  map.on('contextmenu', (e) => {
+  deprecatedMap.on('contextmenu', (e) => {
     newCircleZone(e.lngLat.lng, e.lngLat.lat);
   })
 })
 
 //image drawing on screen
-map.on('load', async () => {
-  image = await map.loadImage('https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png');
-  map.addImage('cat', image.data);
-  map.addSource('point', {
+deprecatedMap.on('load', async () => {
+  image = await deprecatedMap.loadImage('https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png');
+  deprecatedMap.addImage('cat', image.data);
+  deprecatedMap.addSource('point', {
     'type': 'geojson',
     'data': {
       'type': 'FeatureCollection',
@@ -234,7 +234,7 @@ map.on('load', async () => {
       ]
     }
   });
-  map.addLayer({
+  deprecatedMap.addLayer({
     'id': 'points',
     'type': 'symbol',
     'source': 'scott',
@@ -250,9 +250,9 @@ console.log(turf.version);
 
 let pressTimer;
 
-map.on('touchstart', (e) => {
-  pressTimer = setInterval(() => {
-    if (map.isZooming() || map.isMoving() || map.isRotating()) { }
+deprecatedMap.on('touchstart', (e) => {
+  pressTimer = setTimeout((e) => {
+    if (deprecatedMap.isZooming() || deprecatedMap.isMoving() || deprecatedMap.isRotating()) { }
     else {
       const coords = e.lngLat;
       const x = e.point.x;
@@ -262,8 +262,8 @@ map.on('touchstart', (e) => {
     }
   }, 700);
 });
-map.on('touchend', (e) => {clearInterval(pressTimer);});
-map.on('touchmove', (e) => {clearInterval(pressTimer);});
+deprecatedMap.on('touchend', (e) => {clearTimeout(pressTimer);});
+deprecatedMap.on('touchmove', (e) => {clearTimeout(pressTimer);});
 
 function newCircleZone(lng, lat) {
   console.log(lng, lat);
