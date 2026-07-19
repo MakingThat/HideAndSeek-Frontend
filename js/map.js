@@ -211,11 +211,7 @@ map.on('load', () => {
   });
 
   map.on('contextmenu', (e) => {
-    console.log(e.lngLat);
-    const zoneCentre = [e.lngLat.lng, e.lngLat.lat];
-    const zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
-    zones.push(zone);
-    rebuildSources();
+    newCircleZone(e.lngLat.lng, e.lngLat.lat);
   })
 })
 
@@ -251,3 +247,24 @@ map.on('load', async () => {
 
 console.log(toGeoJSON(players));
 console.log(turf.version);
+
+let pressTimer;
+
+map.on('touchstart', (e) => {
+  pressTimer = setInterval(() => {
+
+    const coords = e.lngLat;
+    const x = e.point.x;
+    const y = e.point.y;
+
+    newCircleZone(coords.lng, coords.lat, coords.lng);
+  }, 700);
+});
+
+function newCircleZone(lng, lat) {
+  console.log(lng, lat);
+  const zoneCentre = [lng, lat];
+  const zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
+  zones.push(zone);
+  rebuildSources();
+}
