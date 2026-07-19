@@ -6,13 +6,17 @@ const players = [
 const map = new maplibregl.Map({
   container: 'map',
   style: 'https://tiles.openfreemap.org/styles/liberty',
-  // center: [players[0].lng, players[0].lat],
-  // zoom: 13,
-  // maxBounds: [
-  //   [-4.910306, 55.655944], //55°39'21.4"N 4°54'37.1"W southwest corner of map (off the coast at adrasson)
-  //   [-3.744528, 55.959361] //55°57'33.7"N 3°44'40.3"W northeast corner of map (kinda near falkirk)
-  // ]
+  center: [players[0].lng, players[0].lat],
+  zoom: 13,
+  maxBounds: [
+    [-4.910306, 55.655944], //55°39'21.4"N 4°54'37.1"W southwest corner of map (off the coast at adrasson)
+    [-3.744528, 55.959361] //55°57'33.7"N 3°44'40.3"W northeast corner of map (kinda near falkirk)
+  ],
+
 });
+
+map.dragRotate.disable();
+map.touchZoomRotate.disableRotation();
 
 map.addControl(new maplibregl.NavigationControl());
 
