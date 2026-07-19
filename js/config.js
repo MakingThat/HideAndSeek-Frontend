@@ -11,3 +11,5 @@ export const outerRing = [
   [-180,85],
   [-180,-85]
 ];
+
+export const wsUri = `ws://${websocket}`;

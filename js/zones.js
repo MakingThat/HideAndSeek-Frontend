@@ -1,4 +1,3 @@
-// zones.js
 import { map } from './map-init.js';
 import { zoneRadiusKm, outerRing } from './config.js';
 
