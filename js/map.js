@@ -252,12 +252,14 @@ let pressTimer;
 
 map.on('touchstart', (e) => {
   pressTimer = setInterval(() => {
+    if (map.isZooming() || map.isMoving() || map.isRotating()) { }
+    else {
+      const coords = e.lngLat;
+      const x = e.point.x;
+      const y = e.point.y;
 
-    const coords = e.lngLat;
-    const x = e.point.x;
-    const y = e.point.y;
-
-    newCircleZone(coords.lng, coords.lat, coords.lng);
+      newCircleZone(coords.lng, coords.lat, coords.lng);
+    }
   }, 700);
 });
 map.on('touchend', (e) => {clearInterval(pressTimer);});
