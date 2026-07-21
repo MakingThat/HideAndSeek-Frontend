@@ -8,8 +8,17 @@ export let radarZones = [];
 export function initZoneInteractions() {
   map.on('contextmenu', (e) => {
     newCircleZone(e.lngLat.lng, e.lngLat.lat);
-    newThermometer(players[3], players[2], false);
+
   });
+
+  map.on('mousedown', (e) => {
+    // Check if the middle mouse button was pressed
+    if (e.originalEvent.button === 1) {
+      console.log('Middle click at coordinates:', e.lngLat);
+      newThermometer(players[3], players[2], false);
+    }
+  });
+
 
   let pressTimer;
 
