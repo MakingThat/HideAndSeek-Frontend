@@ -1,5 +1,5 @@
 import { wsUri } from '../config.js';
-import { newCircleZone } from "../zones.js";
+import { newCircleZone } from "../radar.js";
 
 let websocket = null;
 let counter = 0;

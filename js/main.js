@@ -11,3 +11,5 @@ map.on('load', () => {
   initCatMarker();
   openWebsocket();
 });
+
+

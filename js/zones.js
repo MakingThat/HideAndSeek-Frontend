@@ -1,12 +1,14 @@
 import { map } from './map-init.js';
-import { zoneRadiusKm, outerRing, players } from './config.js';
-import { SendMessage } from './network/websocketManager.js';
+import { outerRing, players, testPositons } from './config.js';
+import { newCircleZone} from "./radar.js";
+import { newThermometer } from "./thermometer.js";
 
-export let zones = [];
+export let radarZones = [];
 
 export function initZoneInteractions() {
   map.on('contextmenu', (e) => {
     newCircleZone(e.lngLat.lng, e.lngLat.lat);
+    newThermometer(players[3], players[2], false);
   });
 
   let pressTimer;
@@ -54,12 +56,12 @@ export function initZoneLayers() {
   });
 }
 
-function rebuildSources() {
-  const zoneCollection = { type: 'FeatureCollection', features: zones };
+export function rebuildSources() {
+  const zoneCollection = { type: 'FeatureCollection', features: radarZones };
 
-  let mergedZones = zones[0] || null;
-  for (let i = 1; i < zones.length; i++) {
-    mergedZones = turf.union(mergedZones, zones[i]);
+  let mergedZones = radarZones[0] || null;
+  for (let i = 1; i < radarZones.length; i++) {
+    mergedZones = turf.union(mergedZones, radarZones[i]);
   }
 
   const holeRings = [];
@@ -87,29 +89,15 @@ function rebuildSources() {
   map.getSource('zones-outline-src').setData({ type: 'FeatureCollection', features: outlineFeatures });
   map.getSource('mask').setData(mask);
 
-  map.setLayoutProperty('mask-layer', 'visibility', zones.length > 0 ? 'visible' : 'none');
-}
-
-export function newCircleZone(lng, lat) {
-  const zoneCentre = [lng, lat];
-  const zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
-  zones.push(zone);
-  rebuildSources();
-  SendMessage({
-    position: {
-      lat: lat,
-      lng: lng,
-    },
-    radius: zoneRadiusKm
-  });
+  map.setLayoutProperty('mask-layer', 'visibility', radarZones.length > 0 ? 'visible' : 'none');
 }
 
 export function isPlayerInAnyZone(playerLngLat) {
   const point = turf.point(playerLngLat);
-  return zones.some(zone => turf.booleanPointInPolygon(point, zone));
+  return radarZones.some(zone => turf.booleanPointInPolygon(point, zone));
 }
 
 export function getZoneContainingPlayer(playerLngLat) {
   const point = turf.point(playerLngLat);
-  return zones.find(zone => turf.booleanPointInPolygon(point, zone));
+  return radarZones.find(zone => turf.booleanPointInPolygon(point, zone));
 }
