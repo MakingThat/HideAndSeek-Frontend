@@ -8,7 +8,7 @@ map.on('load', () => {
   initPlayerLayer();
   initZoneLayers();
   initZoneInteractions();
-  initCatMarker();
+  // initCatMarker();
   openWebsocket();
 });
 
