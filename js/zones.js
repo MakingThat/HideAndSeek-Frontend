@@ -3,13 +3,9 @@ import { outerRing, players, testPositons } from './config.js';
 import { newCircleZone} from "./radar.js";
 import { newThermometer } from "./thermometer.js";
 
-export let radarZones = [];
+export let zones = [];
 
 export function initZoneInteractions() {
-  map.on('contextmenu', (e) => {
-    newCircleZone(e.lngLat.lng, e.lngLat.lat);
-
-  });
 
   map.on('mousedown', (e) => {
     // Check if the middle mouse button was pressed
@@ -66,22 +62,31 @@ export function initZoneLayers() {
 }
 
 export function rebuildSources() {
-  const zoneCollection = { type: 'FeatureCollection', features: radarZones };
+  const zoneCollection = { type: 'FeatureCollection', features: zones };
 
-  let mergedZones = radarZones[0] || null;
-  for (let i = 1; i < radarZones.length; i++) {
-    mergedZones = turf.union(mergedZones, radarZones[i]);
+  let inPlayArea = null;
+  for (const zone of zones) {
+    if (zone.properties.inPlay !== false) {
+      inPlayArea = inPlayArea ? turf.union(inPlayArea, zone) : zone;
+    } else if (inPlayArea) {
+      inPlayArea = turf.difference(inPlayArea, zone);
+    }
   }
+
+  // let mergedZones = zones[0] || null;
+  // for (let i = 1; i < zones.length; i++) {
+  //   mergedZones = turf.union(mergedZones, zones[i]);
+  // }
 
   const holeRings = [];
   const outlineFeatures = [];
 
-  if (mergedZones) {
-    if (mergedZones.geometry.type === 'Polygon') {
-      holeRings.push(mergedZones.geometry.coordinates[0]);
-      outlineFeatures.push(mergedZones);
-    } else if (mergedZones.geometry.type === 'MultiPolygon') {
-      mergedZones.geometry.coordinates.forEach(poly => {
+  if (inPlayArea) {
+    if (inPlayArea.geometry.type === 'Polygon') {
+      holeRings.push(inPlayArea.geometry.coordinates[0]);
+      outlineFeatures.push(inPlayArea);
+    } else if (inPlayArea.geometry.type === 'MultiPolygon') {
+      inPlayArea.geometry.coordinates.forEach(poly => {
         holeRings.push(poly[0]);
         outlineFeatures.push(turf.polygon(poly));
       });
@@ -98,15 +103,15 @@ export function rebuildSources() {
   map.getSource('zones-outline-src').setData({ type: 'FeatureCollection', features: outlineFeatures });
   map.getSource('mask').setData(mask);
 
-  map.setLayoutProperty('mask-layer', 'visibility', radarZones.length > 0 ? 'visible' : 'none');
+  map.setLayoutProperty('mask-layer', 'visibility', zones.length > 0 ? 'visible' : 'none');
 }
 
 export function isPlayerInAnyZone(playerLngLat) {
   const point = turf.point(playerLngLat);
-  return radarZones.some(zone => turf.booleanPointInPolygon(point, zone));
+  return zones.some(zone => turf.booleanPointInPolygon(point, zone));
 }
 
 export function getZoneContainingPlayer(playerLngLat) {
   const point = turf.point(playerLngLat);
-  return radarZones.find(zone => turf.booleanPointInPolygon(point, zone));
+  return zones.find(zone => turf.booleanPointInPolygon(point, zone));
 }

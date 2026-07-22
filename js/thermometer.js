@@ -1,5 +1,5 @@
 import { outerRing } from './config.js';
-import { radarZones, rebuildSources } from "./zones.js";
+import { zones, rebuildSources } from "./zones.js";
 
 import { map } from './map-init.js';
 
@@ -78,7 +78,9 @@ export function newThermometer(startPoint, endPoint, showMidpoint) {
   const outerPolygon = turf.polygon([outerRing])
   const clipped = turf.intersect(halfPlane, outerPolygon) || halfPlane;
 
-  radarZones.push(clipped);
+  clipped.properties.inPlay = true;
+
+  zones.push(clipped);
   rebuildSources();
 }
 
