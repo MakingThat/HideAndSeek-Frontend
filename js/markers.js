@@ -15,7 +15,7 @@ export async function initCatMarker() {
   map.addLayer({
     id: 'points',
     type: 'symbol',
-    source: 'scott',
+    source: 'players',
     layout: {
       'icon-image': 'cat',
       'icon-size': 0.08

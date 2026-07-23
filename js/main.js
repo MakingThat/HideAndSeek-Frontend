@@ -3,12 +3,14 @@ import { initPlayerLayer } from './players.js';
 import { initZoneLayers, initZoneInteractions } from './zones.js';
 import { initCatMarker } from './markers.js';
 import { openWebsocket} from "./network/websocketManager.js";
+import { initInputs } from "./input.js";
 
 map.on('load', () => {
   initPlayerLayer();
   initZoneLayers();
+  initInputs();
   initZoneInteractions();
-  initCatMarker();
+  // initCatMarker();
   openWebsocket();
 });
 
