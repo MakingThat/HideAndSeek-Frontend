@@ -35,7 +35,7 @@ export function initZoneLayers() {
   map.addSource('zones-outline-src', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   map.addSource('mask', {
     type: 'geojson',
-    data: { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [outerRing] } }
+    data: { type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [outerRing] } }] }
   });
 
   map.addLayer({
@@ -68,40 +68,48 @@ export function rebuildSources() {
   for (const zone of zones) {
     if (zone.properties.inPlay !== false) {
       inPlayArea = inPlayArea ? turf.union(inPlayArea, zone) : zone;
-    } else if (inPlayArea) {
+    }
+  }
+  if (!inPlayArea) {
+    inPlayArea = turf.polygon([outerRing]);
+  }
+  for (const zone of zones) {
+    if (zone.properties.inPlay === false && inPlayArea) {
       inPlayArea = turf.difference(inPlayArea, zone);
     }
   }
 
-  // let mergedZones = zones[0] || null;
-  // for (let i = 1; i < zones.length; i++) {
-  //   mergedZones = turf.union(mergedZones, zones[i]);
-  // }
-
   const holeRings = [];
   const outlineFeatures = [];
+  const islandFeatures = []; // isolated exclusion zones fully inside the in-play area
 
   if (inPlayArea) {
     if (inPlayArea.geometry.type === 'Polygon') {
-      holeRings.push(inPlayArea.geometry.coordinates[0]);
+      const [outer, ...holes] = inPlayArea.geometry.coordinates;
+      holeRings.push(outer);
+      holes.forEach(hole => islandFeatures.push(turf.polygon([hole])));
       outlineFeatures.push(inPlayArea);
     } else if (inPlayArea.geometry.type === 'MultiPolygon') {
       inPlayArea.geometry.coordinates.forEach(poly => {
-        holeRings.push(poly[0]);
+        const [outer, ...holes] = poly;
+        holeRings.push(outer);
+        holes.forEach(hole => islandFeatures.push(turf.polygon([hole])));
         outlineFeatures.push(turf.polygon(poly));
       });
     }
   }
 
-  const mask = {
-    type: 'Feature',
-    properties: {},
-    geometry: { type: 'Polygon', coordinates: [outerRing, ...holeRings] }
+  const maskCollection = {
+    type: 'FeatureCollection',
+    features: [
+      { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [outerRing, ...holeRings] } },
+      ...islandFeatures
+    ]
   };
 
   map.getSource('zone').setData(zoneCollection);
   map.getSource('zones-outline-src').setData({ type: 'FeatureCollection', features: outlineFeatures });
-  map.getSource('mask').setData(mask);
+  map.getSource('mask').setData(maskCollection);
 
   map.setLayoutProperty('mask-layer', 'visibility', zones.length > 0 ? 'visible' : 'none');
 }

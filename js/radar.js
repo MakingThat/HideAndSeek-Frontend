@@ -4,15 +4,17 @@ import {SendMessage} from "./network/websocketManager.js";
 
 import { zones} from "./zones.js";
 
-export function newCircleZone(lng, lat, inPlay = true) {
+export function newCircleZone(lng, lat, radius = zoneRadiusKm, inPlay = true) {
   const zoneCentre = [lng, lat];
-  const zone = turf.circle(zoneCentre, zoneRadiusKm, { units: 'kilometers' });
+  console.log(zoneCentre);
+  const zone = turf.circle(zoneCentre, radius, { units: 'kilometers' });
   zone.properties.inPlay = inPlay;
   zones.push(zone);
   rebuildSources();
   SendMessage({
     position: {lat: lat, lng: lng,},
-    radius: zoneRadiusKm,
-    inPlay
+    radius: radius,
+    inPlay,
+    requestType: 'radarQuestion'
   });
 }

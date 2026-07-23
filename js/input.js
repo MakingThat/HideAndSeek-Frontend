@@ -18,7 +18,7 @@ export function initInputs() {
 
     if (e.key === 'R') {
       const lnglat = map.unproject(lastMousePos);
-      newCircleZone(lnglat.lng, lnglat.lat, false);
+      newCircleZone(lnglat.lng, lnglat.lat, 5, false);
     }
   })
 }

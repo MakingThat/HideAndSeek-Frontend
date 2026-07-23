@@ -24,7 +24,15 @@ function initializeWebSocketListeners(ws) {
     counter++;
 
     const data = JSON.parse(e.data);
-    newCircleZone(data.position.lng, data.position.lng);
+    if ( Array.isArray(data) ) {
+      for ( e of data ) {
+        switch (e.questionType) {
+          case "Radar":
+            newCircleZone(e.position.lng, e.position.lat, e.radius, e.answer);
+            break;
+        }
+      }
+    }
   });
 
   ws.addEventListener("error", (e) => {
@@ -38,12 +46,6 @@ window.addEventListener("pageshow", (event) => {
     initializeWebSocketListeners(websocket);
   }
 });
-
-// window.addEventListener("load", function() {
-//   console.log("OPENING");
-//   websocket = new WebSocket(wsUri);
-//   initializeWebSocketListeners(websocket);
-// });
 
 export function openWebsocket() {
   console.log("OPENING");
