@@ -58,8 +58,8 @@ export function newThermometer(startPoint, endPoint, showMidpoint) {
 
   const D = getPlayAreaDiagonalKm();
 
-  const lineP1 = turf.rhumbDestination(endPointPoint, 500, perpBearing, { units: 'kilometers' });
-  const lineP2 = turf.rhumbDestination(endPointPoint, 500, perpBearing + 180, { units: 'kilometers'});
+  const lineP1 = turf.rhumbDestination(midpoint, 500, perpBearing, { units: 'kilometers' });
+  const lineP2 = turf.rhumbDestination(midpoint, 500, perpBearing + 180, { units: 'kilometers'});
 
   const side = Math.random() < 0.5 ? dirBearing : dirBearing + 180;
 
@@ -71,7 +71,7 @@ export function newThermometer(startPoint, endPoint, showMidpoint) {
     farP1.geometry.coordinates,
     farP2.geometry.coordinates,
     lineP2.geometry.coordinates,
-    endPointPoint.geometry.coordinates,
+    midpoint.geometry.coordinates,
     lineP1.geometry.coordinates
   ]]);
 
