@@ -20,3 +20,4 @@ export const outerRing = [
 ];
 
 export const wsUri = `ws://games.lunarpixel.uk:67/questions`;
+export const wsAuthUri = `ws://games.lunarpixel.uk:67/auth`;

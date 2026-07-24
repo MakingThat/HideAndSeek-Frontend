@@ -1,6 +1,6 @@
 import { zoneRadiusKm } from "./config.js";
 import { rebuildSources } from "./zones.js";
-import {SendMessage} from "./network/websocketManager.js";
+import {SendMessage} from "./network/mainWebManager.js";
 
 import { zones} from "./zones.js";
 
