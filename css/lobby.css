@@ -1,0 +1,27 @@
+body {
+  background: #656565;
+  align-content: center;
+}
+
+section {
+  background: #ffffff;
+  max-width: 800px;
+  height: auto;
+  justify-content: center;
+  border-radius: 15px;
+
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+#content-box {
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  font-family: VAG Rounded Next,sans-serif;
+}
+
+#content h1 {
+  width: auto;
+
+}
