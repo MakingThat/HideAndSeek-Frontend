@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  frontend:
+    build: .
+    container_name: hideandseek-frontend
+    ports:
+      - "6767:6767"
+    restart: always
