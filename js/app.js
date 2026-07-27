@@ -15,7 +15,7 @@ document.querySelectorAll('.dropdown-panel button')[0].addEventListener('click',
 
   map.once('click', (e) => {
     map.getCanvas().style.cursor = ''; // reset cursor
-    newCircleZone(e.lngLat.lng, e.lngLat.lat, radius);
+    newCircleZone(e.lngLat.lng, e.lngLat.lat, radius, undefined, true);
   });
 });
 
