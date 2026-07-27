@@ -4,7 +4,7 @@ import { newThermometer } from "./thermometer.js";
 
 export function initInputs() {
   map.on('contextmenu', (e) => {
-    newCircleZone(e.lngLat.lng, e.lngLat.lat);
+    newCircleZone(e.lngLat.lng, e.lngLat.lat, 2, true,true);
   })
 
   let lastMousePos = null;

@@ -1,20 +1,30 @@
 import { zoneRadiusKm } from "./config.js";
 import { rebuildSources } from "./zones.js";
-import {SendMessage} from "./network/websocketManager.js";
+import {SendMessage} from "./network/mainWebManager.js";
 
 import { zones} from "./zones.js";
 
-export function newCircleZone(lng, lat, radius = zoneRadiusKm, inPlay = true) {
+export function newCircleZone(lng, lat, radius = zoneRadiusKm, inPlay = true, local) {
   const zoneCentre = [lng, lat];
   console.log(zoneCentre);
   const zone = turf.circle(zoneCentre, radius, { units: 'kilometers' });
   zone.properties.inPlay = inPlay;
   zones.push(zone);
   rebuildSources();
-  SendMessage({
-    position: {lat: lat, lng: lng,},
-    radius: radius,
-    inPlay,
-    requestType: 'radarQuestion'
-  });
+  if (local) {
+    SendMessage({
+      requestType: 'question',
+      question: {
+        questionType: 'Radar',
+        answer: null,
+        answered: false,
+        position: {
+          lat: lat,
+          lng: lng,
+        },
+        radius: radius
+      }
+    });
+    console.log('[RADAR] - Message sent to server!');
+  }
 }
