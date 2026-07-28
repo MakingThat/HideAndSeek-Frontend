@@ -25,12 +25,20 @@
 
 .bottom-panel-content {
   padding: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .bottom-panel-bar {
   justify-content: center;
 }
 
-.bottom-panel-handle p {
+.question-type {
+  display: flex;
+  flex-direction: row;
+  background: #b1b1b1;
+  width: 300px;
+  height: 300px;
 
+  margin: 10px;
 }
