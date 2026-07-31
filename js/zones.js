@@ -6,16 +6,6 @@ import { newThermometer } from "./thermometer.js";
 export let zones = [];
 
 export function initZoneInteractions() {
-
-  map.on('mousedown', (e) => {
-    // Check if the middle mouse button was pressed
-    if (e.originalEvent.button === 1) {
-      console.log('Middle click at coordinates:', e.lngLat);
-      newThermometer(players[3], players[2], false);
-    }
-  });
-
-
   let pressTimer;
 
   map.on('touchstart', (e) => {

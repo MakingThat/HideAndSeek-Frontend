@@ -7,6 +7,7 @@
   <title>HideAndSeek Map test v0.2</title>
   <link rel="stylesheet" href="css/baseStyle.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/questions-overlay.css">
   <!--region Meta lines -->
   <meta name="description" content="">
 
@@ -31,16 +32,29 @@
 
 <body>
 
-<nav class="overlay-nav">
-  <a href="#" id="add-area-toggle">Add Area</a>
-  <div id="add-area-panel" class="dropdown-panel hidden">
-    <button type="button">Radar</button>
-    <button type="button">Thermometer</button>
-  </div>
-</nav>
+  <nav class="overlay-nav">
+    <a href="#" id="add-area-toggle">Add Area</a>
+    <div id="add-area-panel" class="dropdown-panel hidden">
+      <button type="button">Radar</button>
+      <button type="button">Thermometer</button>
+    </div>
+  </nav>
 
   <div id="content-map">
     <div id="map"></div>
+  </div>
+
+  <div class="bottom-panel">
+    <div class="bottom-panel-handle">
+      <p>! Hover Me !</p>
+    </div>
+    <div class="bottom-panel-content">
+      <div class="question-type"></div>
+      <div class="question-type"></div>
+      <div class="question-type"></div>
+      <div class="question-type"></div>
+      <div class="question-type"></div>
+    </div>
   </div>
 
   <script type="module" src="js/main.js"></script>

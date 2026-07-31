@@ -1,0 +1,44 @@
+.bottom-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(calc(100% - 40px)); /* 40px = height of the visible handle */
+  transition: transform 0.3s ease-in-out;
+  background: #3c3c3c;
+  color: white;
+  z-index: 1000;
+}
+
+.bottom-panel:hover {
+  transform: translateY(0);
+}
+
+.bottom-panel-handle {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #333;
+}
+
+.bottom-panel-content {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-panel-bar {
+  justify-content: center;
+}
+
+.question-type {
+  display: flex;
+  flex-direction: row;
+  background: #b1b1b1;
+  width: 300px;
+  height: 300px;
+
+  margin: 10px;
+}
