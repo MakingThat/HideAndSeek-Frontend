@@ -2,10 +2,54 @@ import { map } from './map-init.js';
 import { newCircleZone } from './radar.js';
 import { newThermometer } from "./thermometer.js";
 
+import { players } from './config.js';
+
+let hasClicked = false;
+let inThermometerMode = false;
+
+let thermoPos1;
+let thermoPos2;
+
 export function initInputs() {
   map.on('contextmenu', (e) => {
     newCircleZone(e.lngLat.lng, e.lngLat.lat, 2, true,true);
-  })
+  });
+
+  map.on('mousedown', (e) => {
+
+    // Check if the middle mouse button was pressed
+    if (e.originalEvent.button === 1) {
+      console.log('Middle click at coordinates:', e.lngLat);
+      // newThermometer(players[3], players[2], false);
+
+      inThermometerMode = true;
+
+      map.getCanvas().style.cursor = 'crosshair';
+
+      map.on( "click", (e) => {
+        if (!inThermometerMode) {
+
+        }
+        else {
+          if (e.originalEvent.button === 0 && !hasClicked ) {
+            console.log('clicked in thermometer mode at coordinates:', e.lngLat);
+            thermoPos1 = e.lngLat;
+            console.log(thermoPos1);
+            hasClicked = true;
+          }else if (e.originalEvent.button === 0 && hasClicked) {
+            console.log('clicked again in thermometer mode at coordinates:', e.lngLat);
+            thermoPos2 = e.lngLat;
+            console.log(thermoPos2);
+            inThermometerMode = false;
+            hasClicked = false;
+            map.getCanvas().style.cursor = '';
+
+            newThermometer(thermoPos1, thermoPos2, true);
+          }
+        }
+      })
+    }
+  });
 
   let lastMousePos = null;
 
