@@ -13,7 +13,7 @@ body {
 .overlay-nav {
   position: fixed;
   top: 10px;
-  left: 0;
+  left: 10px;
   /*width: 150px;*/
   background-color: rgb(221 221 221); /* Semi-transparent background */
   border-radius: 1rem;
@@ -74,6 +74,67 @@ body {
   text-align: left;
 }
 
-.dropdown-panel button:hover {
-  background-color: #ff8d8d;
+.dropdown-panel button:not(.disable):hover {
+  background-color: #b3b3b3;
+}
+
+.dropdown-panel button.disable {
+  color: #555555;
+}
+
+#radar-zone-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#radar-zone-modal.hidden {
+  display: none;
+}
+
+#radar-zone-modal .modal-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 260px;
+}
+
+#thermometer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#thermometer-modal.hidden {
+  display: none;
+}
+
+#thermometer-modal .modal-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 260px;
+}
+
+#thermometer-modal fieldset {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
 }
