@@ -20,36 +20,36 @@ export function initInputs() {
     // Check if the middle mouse button was pressed
     if (e.originalEvent.button === 1) {
       console.log('Middle click at coordinates:', e.lngLat);
-      // newThermometer(players[3], players[2], false);
 
       inThermometerMode = true;
 
       map.getCanvas().style.cursor = 'crosshair';
-
-      map.on( "click", (e) => {
-        if (!inThermometerMode) {
-
-        }
-        else {
-          if (e.originalEvent.button === 0 && !hasClicked ) {
-            console.log('clicked in thermometer mode at coordinates:', e.lngLat);
-            thermoPos1 = e.lngLat;
-            console.log(thermoPos1);
-            hasClicked = true;
-          }else if (e.originalEvent.button === 0 && hasClicked) {
-            console.log('clicked again in thermometer mode at coordinates:', e.lngLat);
-            thermoPos2 = e.lngLat;
-            console.log(thermoPos2);
-            inThermometerMode = false;
-            hasClicked = false;
-            map.getCanvas().style.cursor = '';
-
-            newThermometer(thermoPos1, thermoPos2, true);
-          }
-        }
-      })
     }
   });
+
+  map.on( "click", (e) => {
+    if (!inThermometerMode) {
+
+    }
+    else {
+      if (e.originalEvent.button === 0 && !hasClicked ) {
+        console.log('clicked in thermometer mode at coordinates:', e.lngLat);
+        thermoPos1 = e.lngLat;
+        console.log(thermoPos1);
+        hasClicked = true;
+      }else if (e.originalEvent.button === 0 && hasClicked) {
+        console.log('clicked again in thermometer mode at coordinates:', e.lngLat);
+        thermoPos2 = e.lngLat;
+        console.log(thermoPos2);
+        map.getCanvas().style.cursor = '';
+        inThermometerMode = false;
+        hasClicked = false;
+
+        newThermometer(thermoPos1, thermoPos2, true);
+
+      }
+    }
+  })
 
   let lastMousePos = null;
 
