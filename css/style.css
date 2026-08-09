@@ -1,6 +1,19 @@
+@import url(https://db.onlinewebfonts.com/c/513071b47bdba774c93a73ad16a75e3b?family=DIN+Next+LT+Arabic+Bold);
+
+@font-face {
+  font-family: "DIN Next LT Arabic Bold";
+  src: url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.eot");
+  src: url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.eot?#iefix")format("embedded-opentype"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.woff2")format("woff2"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.woff")format("woff"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.ttf")format("truetype"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.svg#DIN Next LT Arabic Bold")format("svg");
+}
+
 body {
   margin: 0;
   padding: 0;
+  font-family: "DIN Next LT Arabic Bold";
 }
 
 #map {
@@ -34,6 +47,8 @@ body {
   text-decoration: none;
   color: black;
   align-content: center;
+
+  font-size: 1rem;
 }
 
 .overlay-nav a::after {
@@ -68,18 +83,29 @@ body {
   border: none;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
-  background-color: white;
   cursor: pointer;
-  font: inherit;
   text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  color: white;
 }
+
+#radarButton {background-color: #f2793d;}
+#thermButton {background-color: #fdbb3f;}
+#photoButton {background-color: #8bb5c6;}
+#tentacleButton {background-color: #9171aa;}
+#measureButton {background-color: #509e66;}
+#matchButton {background-color: #21303f;}
+
 
 .dropdown-panel button:not(.disable):hover {
   background-color: #b3b3b3;
 }
 
 .dropdown-panel button.disable {
-  color: #555555;
+  filter: grayscale(100%);
+  cursor: default;
+  pointer-events: none;
 }
 
 #radar-zone-modal {

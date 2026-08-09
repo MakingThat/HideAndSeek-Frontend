@@ -11,9 +11,12 @@ let thermoPos1;
 let thermoPos2;
 
 export function initInputs() {
-  // map.on('contextmenu', (e) => {
-  //   newCircleZone(e.lngLat.lng, e.lngLat.lat, 2, true,true);
-  // });
+  /**
+   * Does something nifty.
+   *
+   * @param   {number} whatsit  The whatsit to use (or whatever).
+   * @returns {string} A useful value.
+   */
 
   map.on('mousedown', (e) => {
 
@@ -68,7 +71,7 @@ export function initInputs() {
 }
 
 //region UI Radar
-document.querySelectorAll('.dropdown-panel button')[0].addEventListener('click', () => {
+document.getElementById('radarButton').addEventListener('click', () => {
   document.getElementById('add-area-panel').classList.add('hidden');
   document.getElementById('radar-zone-modal').classList.remove('hidden');
 });
@@ -107,7 +110,7 @@ document.getElementById('rz-confirm').addEventListener('click', () => {
 //endregion
 
 //region UI Thermometer
-document.querySelectorAll('.dropdown-panel button')[1].addEventListener('click', () => {
+document.getElementById('thermButton').addEventListener('click', () => {
   document.getElementById('add-area-panel').classList.add('hidden');
   document.getElementById('thermometer-modal').classList.remove('hidden');
 });

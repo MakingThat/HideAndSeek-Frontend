@@ -21,6 +21,8 @@
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon.png">
 
+  <link href="https://db.onlinewebfonts.com/c/513071b47bdba774c93a73ad16a75e3b?family=DIN+Next+LT+Arabic+Bold" rel="stylesheet">
+
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#fafafa">
   <!--endregion-->
@@ -33,12 +35,14 @@
 <body>
 
   <nav class="overlay-nav">
-    <a href="#" id="add-area-toggle">ADD</a>
+    <a href="#" id="add-area-toggle">Questions</a>
     <div id="add-area-panel" class="dropdown-panel hidden">
-      <button type="button">Radar</button>
-      <button type="button">Thermometer</button>
-      <button type="button" class="disable">Measure</button>
-      <button type="button" class="disable">Match</button>
+      <button id="matchButton" type="button" class="disable">Match</button>
+      <button id="measureButton" type="button" class="disable">Measure</button>
+      <button id="thermButton" type="button">Thermometer</button>
+      <button id="radarButton" type="button">Radar</button>
+      <button id="tentacleButton" type="button" class="disable">Tentacle</button>
+      <button id="photoButton" type="button" class="disable">Photo</button>
     </div>
   </nav>
 
