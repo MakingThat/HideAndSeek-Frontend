@@ -54,18 +54,14 @@ export function initZoneLayers() {
 export function rebuildSources() {
   const zoneCollection = { type: 'FeatureCollection', features: zones };
 
-  let inPlayArea = null;
+  const hasInPlayZone = zones.some(z => z.properties.inPlay !== false);
+  let inPlayArea = hasInPlayZone ? null : turf.polygon([outerRing]);
+
   for (const zone of zones) {
     if (zone.properties.inPlay !== false) {
       inPlayArea = inPlayArea ? turf.union(inPlayArea, zone) : zone;
-    }
-  }
-  if (!inPlayArea) {
-    inPlayArea = turf.polygon([outerRing]);
-  }
-  for (const zone of zones) {
-    if (zone.properties.inPlay === false && inPlayArea) {
-      inPlayArea = turf.difference(inPlayArea, zone);
+    } else {
+      inPlayArea = inPlayArea ? turf.difference(inPlayArea, zone) : null;
     }
   }
 
