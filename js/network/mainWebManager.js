@@ -1,17 +1,21 @@
 import { wsUri} from "../config.js";
 import { createSocket } from "./socketCore.js";
 import { newCircleZone } from "../radar.js";
+import { newThermometer } from "../thermometer.js";
 
 function handleMessage(data) {
   console.log(data);
 
   if (Array.isArray(data)) {
     for (const item of data) {
-      switch (item.questionType) {
+      switch (item.QuestionType) {
         case "Radar":
           console.log(item);
           newCircleZone(item.position.lng, item.position.lat, item.radius, item.answer);
           break;
+        case "Thermometer":
+          console.log(item);
+          newThermometer(item.startPosition, item.endPosition, true);
       }
     }
   }
