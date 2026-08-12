@@ -19,5 +19,5 @@ export const outerRing = [
   [-180,-85]
 ];
 
-export const wsUri = `api.hideandseek.makingthat.org:6969/questions`;
-export const wsAuthUri = `api.hideandseek.makingthat.org:67/auth`;
+export const wsMapQuestionsUri = `api.hideandseek.makingthat.org/questions`;
+export const wsAuthUri = `api.hideandseek.makingthat.org/auth`;

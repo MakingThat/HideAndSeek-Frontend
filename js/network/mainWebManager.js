@@ -1,4 +1,4 @@
-import { wsUri} from "../config.js";
+import { wsMapQuestionsUri} from "../config.js";
 import { createSocket } from "./socketCore.js";
 import { newCircleZone } from "../radar.js";
 import { newThermometer } from "../thermometer.js";
@@ -24,7 +24,7 @@ function handleMessage(data) {
   }
 }
 
-const socket = createSocket(wsUri, handleMessage);
+const socket = createSocket(wsMapQuestionsUri, handleMessage);
 
 export function openWebsocket() {
   console.log("[SOCKET - MAIN]: Opening Websocket");
