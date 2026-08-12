@@ -11,10 +11,13 @@ function handleMessage(data) {
       switch (item.QuestionType) {
         case "Radar":
           console.log(item);
+
           newCircleZone(item.position.lng, item.position.lat, item.radius, item.answer);
           break;
+
         case "Thermometer":
           console.log(item);
+
           newThermometer(item.startPosition, item.endPosition, true);
       }
     }
