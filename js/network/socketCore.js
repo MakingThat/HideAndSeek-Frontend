@@ -6,30 +6,37 @@ export function createSocket(uri, onMessage) {
   let socketUrl = `${wsProtocol}${uri}`
   let reconnectTimer = null;
   let manuallyClosed = false;
+  let connectionId = 0; // bumped on every connect() call, identifies "the current attempt"
 
   function connect() {
+    const id = ++connectionId; // this socket's identity
     manuallyClosed = false;
     clearReconnectTimer();
 
-    websocket = new WebSocket(socketUrl);
+    const ws = new WebSocket(socketUrl);
+    websocket = ws;
 
-    websocket.addEventListener("open", () => {
+    ws.addEventListener("open", () => {
+      if (id !== connectionId) return; // a stale socket, ignore
       console.log(`[SOCKET - CORE]: connected to ${socketUrl}`);
       clearReconnectTimer();
     });
 
-    websocket.addEventListener("close", () => {
+    ws.addEventListener("close", () => {
+      if (id !== connectionId) return; // stale socket closing late, ignore - a newer one is already active
       console.log(`[SOCKET - CORE]: disconnected from ${socketUrl}`);
       if (!manuallyClosed) scheduleReconnect();
     });
 
-    websocket.addEventListener("error", () => {
+    ws.addEventListener("error", () => {
+      if (id !== connectionId) return;
       console.log("[SOCKET - CORE]: error occurred");
       // "close" fires right after "error" for WebSocket failures, so the
       // reconnect is scheduled there - no need to duplicate it here.
     });
 
-    websocket.addEventListener("message", (e) => {
+    ws.addEventListener("message", (e) => {
+      if (id !== connectionId) return;
       const data = JSON.parse(e.data);
       onMessage(data);
     });
@@ -53,6 +60,7 @@ export function createSocket(uri, onMessage) {
 
   function disconnect() {
     manuallyClosed = true;
+    connectionId++; // invalidates any in-flight/old socket's handlers too
     clearReconnectTimer();
     if (websocket) websocket.close();
   }

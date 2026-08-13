@@ -4,7 +4,7 @@ import {SendMessage} from "./network/mainWebManager.js";
 
 import { zones} from "./zones.js";
 
-export function newCircleZone(lng, lat, radius = zoneRadiusKm, inPlay = true, local) {
+export function newCircleZone(lng, lat, radius = zoneRadiusKm, inPlay, local = true) {
   const zoneCentre = [lng, lat];
   console.log(zoneCentre);
   const zone = turf.circle(zoneCentre, radius, { units: 'kilometers' });

@@ -19,6 +19,7 @@ function handleMessage(data) {
           console.log(item);
 
           newThermometer(item.startPosition, item.endPosition, true);
+          break;
       }
     }
   }
