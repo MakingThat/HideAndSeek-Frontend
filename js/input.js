@@ -140,7 +140,7 @@ document.getElementById('therm-confirm').addEventListener('click', () => {
     // both provided directly, no map clicks needed
     const startPoint = { lat: parseFloat(startLat), lng: parseFloat(startLng) };
     const endPoint = { lat: parseFloat(endLat), lng: parseFloat(endLng) };
-    newThermometer(startPoint, endPoint, true);
+    newThermometer(startPoint, endPoint, true, false, true);
     return;
   }
 

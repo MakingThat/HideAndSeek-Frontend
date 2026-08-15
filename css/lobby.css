@@ -14,11 +14,12 @@ section {
   padding: 0 20px;
 }
 
-#content-box {
+#content-box, #login-content-box {
   justify-content: center;
   text-align: center;
   padding: 20px;
   font-family: VAG Rounded Next,sans-serif;
+  margin-top: 20px;
 }
 
 #content h1 {

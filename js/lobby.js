@@ -39,3 +39,14 @@ document.getElementById('seekerRoleSelect').addEventListener('click', () => {
 
   console.log(localPlayer)
 })
+
+document.getElementById('rejoin').addEventListener('click', () => {
+  const username = (document.getElementById('lobbyUsername').value);
+  const lobbyCode = document.getElementById('lobbyCode').value;
+
+  SendMessage({
+    message: 'Fuck you',
+    username: username,
+    //lobbyCode: lobbyCode, //currently not in use
+  })
+})

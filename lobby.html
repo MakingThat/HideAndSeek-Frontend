@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <section id="main-box">
+  <section id="new-box">
     <div id="content-box">
       <h1>Lobby</h1>
 
@@ -18,11 +18,23 @@
         *
       </label>
 
+      <h2>Join new game</h2>
+
       <p>Choose a team to continue</p>
 
-      <div class="team-box">
+      <div class="button-box">
         <button id="hiderRoleSelect">Hiders</button>
         <button id="seekerRoleSelect">Seekers</button>
+      </div>
+
+      <h2>Reconnect</h2>
+
+      <div class="button-box">
+        <label>
+          <input type="text" id="lobbyCode" placeholder="1234" required>
+        </label>
+
+        <button id="rejoin">Join</button>
       </div>
     </div>
   </section>
