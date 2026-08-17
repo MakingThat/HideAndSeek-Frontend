@@ -12,11 +12,9 @@ document.getElementById('hiderRoleSelect').addEventListener('click', () => {
   playerManager.addOrUpdate(localPlayer);
 
   SendMessage({
-    player: {
-      username: localPlayer.username,
-      role: localPlayer.role,
-      uuid: localPlayer.uuid,
-    }
+    username: localPlayer.username,
+    role: localPlayer.role,
+    uuid: localPlayer.uuid,
   })
 
   console.log(localPlayer);
@@ -30,11 +28,9 @@ document.getElementById('seekerRoleSelect').addEventListener('click', () => {
   playerManager.addOrUpdate(localPlayer);
 
   SendMessage({
-    player: {
-      username: localPlayer.username,
-      role: localPlayer.role,
-      uuid: localPlayer.uuid,
-    }
+    username: localPlayer.username,
+    role: localPlayer.role,
+    uuid: localPlayer.uuid,
   })
 
   console.log(localPlayer)
