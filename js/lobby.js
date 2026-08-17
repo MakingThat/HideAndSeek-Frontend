@@ -11,13 +11,15 @@ document.getElementById('hiderRoleSelect').addEventListener('click', () => {
   const localPlayer = new Player(username, role, null, null); //lnglat will be prompted later in dev
   playerManager.addOrUpdate(localPlayer);
 
-  SendMessage({
+  const message = {
     username: localPlayer.username,
     role: localPlayer.role,
     uuid: localPlayer.uuid,
-  })
+  };
 
-  console.log(localPlayer);
+  SendMessage(message);
+
+  console.log(message);
 })
 
 document.getElementById('seekerRoleSelect').addEventListener('click', () => {
@@ -27,13 +29,15 @@ document.getElementById('seekerRoleSelect').addEventListener('click', () => {
   const localPlayer = new Player(username, role, null, null); //lnglat will be prompted later in dev
   playerManager.addOrUpdate(localPlayer);
 
-  SendMessage({
+  const message = {
     username: localPlayer.username,
     role: localPlayer.role,
     uuid: localPlayer.uuid,
-  })
+  };
 
-  console.log(localPlayer)
+  SendMessage(message);
+
+  console.log(message)
 })
 
 document.getElementById('rejoin').addEventListener('click', () => {
