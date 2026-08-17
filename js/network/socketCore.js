@@ -24,13 +24,13 @@ export function createSocket(uri, onMessage) {
 
     ws.addEventListener("close", () => {
       if (id !== connectionId) return; // stale socket closing late, ignore - a newer one is already active
-      console.log(`[SOCKET - CORE]: disconnected from ${socketUrl}`);
+      console.warn(`[SOCKET - CORE]: disconnected from ${socketUrl}`);
       if (!manuallyClosed) scheduleReconnect();
     });
 
     ws.addEventListener("error", () => {
       if (id !== connectionId) return;
-      console.log("[SOCKET - CORE]: error occurred");
+      console.error("[SOCKET - CORE]: error occurred trying to connect");
       // "close" fires right after "error" for WebSocket failures, so the
       // reconnect is scheduled there - no need to duplicate it here.
     });
@@ -67,7 +67,7 @@ export function createSocket(uri, onMessage) {
 
   function send(message) {
     if (!websocket || websocket.readyState !== WebSocket.OPEN) {
-      console.warn("Websocket not open: " + JSON.stringify(message));
+      console.warn("[SOCKET - CORE]: Websocket not open: " + JSON.stringify(message));
       return false;
     }
     websocket.send(JSON.stringify(message));

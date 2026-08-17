@@ -2,19 +2,25 @@ import { SendMessage, openWebsocket } from "./network/lobbyWebManager.js";
 import { playerManager } from "./playerManager.js";
 import { Player } from "./player.js";
 
+let username;
+let role;
+
 openWebsocket();
 
-document.getElementById('hiderRoleSelect').addEventListener('click', () => {
-  const username = (document.getElementById('lobbyUsername').value);
-  const role = 'hider'
+export function playerSendSuccess (uuid) {
+  let player = new Player(username, role, null ,uuid);
+  playerManager.addOrUpdate(player);
+  console.log(playerManager.all());
+}
 
-  const localPlayer = new Player(username, role, null, null); //lnglat will be prompted later in dev
-  playerManager.addOrUpdate(localPlayer);
+document.getElementById('hiderRoleSelect').addEventListener('click', () => {
+  username = (document.getElementById('lobbyUsername').value);
+  role = 'hider'
 
   const message = {
-    username: localPlayer.username,
-    role: localPlayer.role,
-    uuid: localPlayer.uuid,
+    username: username,
+    role: role,
+    uuid: null,
   };
 
   SendMessage(message);
@@ -23,16 +29,13 @@ document.getElementById('hiderRoleSelect').addEventListener('click', () => {
 })
 
 document.getElementById('seekerRoleSelect').addEventListener('click', () => {
-  const username = (document.getElementById('lobbyUsername').value);
-  const role = 'seeker'
-
-  const localPlayer = new Player(username, role, null, null); //lnglat will be prompted later in dev
-  playerManager.addOrUpdate(localPlayer);
+  username = (document.getElementById('lobbyUsername').value);
+  role = 'seeker'
 
   const message = {
-    username: localPlayer.username,
-    role: localPlayer.role,
-    uuid: localPlayer.uuid,
+    username: username,
+    role: role,
+    uuid: null,
   };
 
   SendMessage(message);
@@ -41,7 +44,7 @@ document.getElementById('seekerRoleSelect').addEventListener('click', () => {
 })
 
 document.getElementById('rejoin').addEventListener('click', () => {
-  const username = (document.getElementById('lobbyUsername').value);
+  username = (document.getElementById('lobbyUsername').value);
   const lobbyCode = document.getElementById('lobbyCode').value;
 
   SendMessage({

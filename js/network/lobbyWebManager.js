@@ -1,5 +1,6 @@
 import { wsAuthUri } from "../config.js";
 import { createSocket } from "./socketCore.js";
+import { playerSendSuccess } from "../lobby.js";
 
 function handleMessage(data) {
   console.log("[LOBBY] - Lobby received:", data);
@@ -12,7 +13,8 @@ function handleMessage(data) {
     //error or failure
   }
   else {
-    console.log("[LOBBY] - Successfully received:");
+    console.log("[LOBBY] - Successfully received data");
+    playerSendSuccess(data.uuid);
   }
 }
 
