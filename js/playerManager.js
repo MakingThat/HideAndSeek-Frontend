@@ -24,4 +24,11 @@ function all() {
   return Array.from(players.values());
 }
 
-export const playerManager = { addOrUpdate, addFromJSON, remove, get, all };
+function usernameExists(username) {
+  for (const p of players.values()) {
+    if (p.username === username) return true;
+  }
+  return false;
+}
+
+export const playerManager = { addOrUpdate, addFromJSON, remove, get, all , usernameExists, players };

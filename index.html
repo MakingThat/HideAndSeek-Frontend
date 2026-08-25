@@ -8,8 +8,8 @@
 </head>
 <body>
 
-  <section id="new-box">
-    <div id="content-box">
+  <section id="auth-box" class="">
+    <div class="content-box">
       <h1>Lobby</h1>
 
       <label>
@@ -36,6 +36,20 @@
 
         <button id="rejoin">Join</button>
       </div>
+
+      <button id="toLobby" class="hidden">Lobby</button>
+    </div>
+  </section>
+
+  <section id="lobby-box" class="hidden">
+    <div class="content-box">
+      <h1>Lobby1</h1>
+
+      <div id="lobby-list-container">
+        <h3>Players (<span id="player-count">0</span>)</h3>
+        <ul id="lobby-list"></ul>
+      </div>
+
     </div>
   </section>
 
