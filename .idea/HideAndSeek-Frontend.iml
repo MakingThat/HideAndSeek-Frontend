@@ -6,5 +6,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="maplibre-gl" level="application" />
     <orderEntry type="library" name="@turf/turf" level="application" />
+    <orderEntry type="library" name="maplibre-gl" level="application" />
+    <orderEntry type="library" name="@turf/turf" level="application" />
   </component>
 </module>
