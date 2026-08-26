@@ -20,6 +20,7 @@ export function playerSendSuccess (uuid) {
   }
 }
 
+//region Buttons Logic
 document.getElementById('hiderRoleSelect').addEventListener('click', () => {
   username = (document.getElementById('lobbyUsername').value);
   role = 'hider'
@@ -75,8 +76,12 @@ document.getElementById('toLobby').addEventListener('click', () => {
   renderLobbyList(playerManager.players);
 })
 
+document.getElementById('devBypass').addEventListener('click', () => {
+  window.location.href='mainGame.html';
+})
+//endregion
 
-
+//region LobbyRenderer
 function renderAvatar(player) {
   if (player.avatarUrl) {
     const img = document.createElement('img');
@@ -125,3 +130,4 @@ function renderLobbyList(players) {
 
   countEl.textContent = playerList.length;
 }
+//endregion
