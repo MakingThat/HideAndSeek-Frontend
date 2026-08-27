@@ -38,7 +38,7 @@
     <a href="#" id="add-area-toggle">Questions</a>
     <div id="add-area-panel" class="dropdown-panel hidden">
       <button id="matchButton" type="button" class="disable">Match</button>
-      <button id="measureButton" type="button" class="disable">Measure</button>
+      <button id="measureButton" type="button">Measure</button>
       <button id="thermButton" type="button">Thermometer</button>
       <button id="radarButton" type="button">Radar</button>
       <button id="tentacleButton" type="button" class="disable">Tentacle</button>
@@ -107,6 +107,29 @@
       <div class="modal-actions">
         <button id="therm-confirm">Confirm</button>
         <button id="therm-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="measure-modal" class="hidden">
+    <div class="modal-content">
+      <h3>Measure Question</h3>
+
+      <fieldset>
+      <legend>Start Point</legend>
+      <label>
+        Latitude
+        <input type="number" id="ther" step="any" placeholder="click map instead">
+      </label>
+      <label>
+        Longitude
+        <input type="number" id="therm" step="any" placeholder="click map instead">
+      </label>
+      </fieldset>
+
+      <div class="modal-actions">
+        <button id="measure-confirm">Confirm</button>
+        <button id="measure-cancel">Cancel</button>
       </div>
     </div>
   </div>

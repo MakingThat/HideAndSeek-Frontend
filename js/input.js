@@ -167,3 +167,14 @@ document.getElementById('therm-confirm').addEventListener('click', () => {
   map.on('click', clickHandler);
 });
 //endregion
+
+//region UI Measure
+document.getElementById('measureButton').addEventListener('click', () => {
+  document.getElementById('add-area-panel').classList.add('hidden');
+  document.getElementById('measure-modal').classList.remove('hidden');
+});
+
+document.getElementById('measure-cancel').addEventListener('click', () => {
+  document.getElementById('measure-modal').classList.add('hidden');
+});
+//endregion
