@@ -5,66 +5,65 @@
   <title>Lobby</title>
   <link rel="stylesheet" href="./css/lobby.css">
   <link href="https://db.onlinewebfonts.com/c/513071b47bdba774c93a73ad16a75e3b?family=DIN+Next+LT+Arabic+Bold" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
 
 </head>
 <body>
 
-  <div class="background">
-    <img src="/img/MapBGtest.png" alt="mapthing">
-  </div>
+<div class="background">
+  <img src="/img/MapBGtest.png" alt="mapthing">
+</div>
 
-  <div class="corner-box">
-    <button id="devBypass" class="">Bypass</button>
-  </div>
+<div class="corner-box">
+  <button id="devBypass" class="">Bypass</button>
+</div>
 
-  <section id="auth-box" class="">
-    <div class="content-box">
-      <h1>Lobby</h1>
+<section id="auth-box" class="">
+  <div class="content-box">
+    <h1>Lobby</h1>
 
-      <label>
-        Username
-        <input type="text" id="lobbyUsername" placeholder="username" required>
-        *
-      </label>
+    <label class="field">
+      <span>Username <span class="required-mark" aria-hidden="true">*</span></span>
+      <input type="text" id="lobbyUsername" placeholder="username" required>
+    </label>
 
+    <div class="divider"></div>
+
+    <div class="form-group">
       <h2>Join new game</h2>
-
-      <p>Choose a team to continue</p>
-
+      <p class="subtext">Choose a team to continue</p>
       <div class="button-box">
-        <button id="hiderRoleSelect">Hiders</button>
-        <button id="seekerRoleSelect">Seekers</button>
+        <button id="hiderRoleSelect" class="role-btn role-hider"><i class="ti ti-eye-off" aria-hidden="true"></i>Hiders</button>
+        <button id="seekerRoleSelect" class="role-btn role-seeker"><i class="ti ti-search" aria-hidden="true"></i>Seekers</button>
       </div>
+    </div>
 
+    <div class="form-group">
       <h2>Reconnect</h2>
-
-      <div class="button-box">
-        <label>
-          <input type="text" id="lobbyCode" placeholder="1234" required>
-        </label>
-
-        <button id="rejoin">Join</button>
+      <div class="button-box reconnect-row">
+        <input type="text" id="lobbyCode" placeholder="1234" required>
+        <button id="rejoin"><i class="ti ti-arrow-right" aria-hidden="true"></i>Join</button>
       </div>
-
-      <button id="toLobby" class="hidden">Lobby</button>
-
-
     </div>
-  </section>
 
-  <section id="lobby-box" class="hidden">
-    <div class="content-box">
-      <h1>Lobby1</h1>
+    <button id="toLobby" class="hidden">Lobby</button>
 
-      <div id="lobby-list-container">
-        <h3>Players (<span id="player-count">0</span>)</h3>
-        <ul id="lobby-list"></ul>
-      </div>
+  </div>
+</section>
 
+<section id="lobby-box" class="hidden">
+  <div class="content-box">
+    <h1>Lobby1</h1>
+
+    <div id="lobby-list-container">
+      <h3>Players (<span id="player-count">0</span>)</h3>
+      <ul id="lobby-list"></ul>
     </div>
-  </section>
 
-  <script type="module" src="./js/lobby.js"></script>
+  </div>
+</section>
+
+<script type="module" src="./js/lobby.js"></script>
 
 </body>
 </html>
