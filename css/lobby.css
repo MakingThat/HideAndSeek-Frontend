@@ -1,5 +1,18 @@
+@import url(https://db.onlinewebfonts.com/c/513071b47bdba774c93a73ad16a75e3b?family=DIN+Next+LT+Arabic+Bold);
+
+@font-face {
+  font-family: "DIN Next LT Arabic Bold";
+  src: url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.eot");
+  src: url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.eot?#iefix")format("embedded-opentype"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.woff2")format("woff2"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.woff")format("woff"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.ttf")format("truetype"),
+  url("https://db.onlinewebfonts.com/t/513071b47bdba774c93a73ad16a75e3b.svg#DIN Next LT Arabic Bold")format("svg");
+}
+
 body {
   align-content: center;
+  font-family: 'DIN Next LT Arabic Bold';
 }
 
 .background {
@@ -36,7 +49,6 @@ body {
   left: 20px;
   background-color: #ffffff;
   border-radius: 1rem;
-  /*color: white;*/
   display: flex;
   padding: 1rem;
   z-index: 1000; /* Keeps it on top */
@@ -48,6 +60,11 @@ body {
   width: auto;
   min-width: 150px;
 }
+
+input[type=button] {
+  font-family: "DIN Next LT Arabic Bold";
+}
+
 
 section {
   background: #ffffff;
@@ -64,7 +81,7 @@ section {
   justify-content: center;
   text-align: center;
   padding: 20px;
-  font-family: VAG Rounded Next,sans-serif;
+  /*font-family: VAG Rounded Next,sans-serif;*/
   margin-top: 20px;
 }
 
