@@ -20,4 +20,4 @@ export const outerRing = [
 ];
 
 export const wsMapQuestionsUri = `api.hideandseek.makingthat.org/questions/map`;
-export const wsAuthUri = `api.hideandseek.makingthat.org/auth`;
+export const wsLobbyUri = `api.hideandseek.makingthat.org/auth`;

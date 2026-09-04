@@ -1,30 +1,46 @@
-import { wsAuthUri } from "../config.js";
-import { createSocket } from "./socketCore.js";
+import * as signalR from "@microsoft/signalr"; //new networking system
+
+import {players, wsLobbyUri} from "../config.js";
 import { playerSendSuccess } from "../lobby.js";
 
-function handleMessage(data) {
-  console.log("[LOBBY] - Lobby received:", data);
-  // handle lobby-specific messages here (e.g. team confirmed, player list, etc.)
+const connection = new signalR.HubConnectionBuilder()
+  .withUrl(`https://${wsLobbyUri}`)
+  .withAutomaticReconnect()
+  .build();
 
-  //on message back - check success bool
-  //then enter data
+//old handleMessage() -> named event registers
 
+//TODO need to decide on name of event method name for backend team
+connection.on("LobbyResult", (data) => {
+  console.log("[LOBBY]: Lobby received", data);
   if (data.success === false) {
-    //error or failure
+    //TODO error message
   }
   else {
-    console.log("[LOBBY] - Successfully received data");
+    console.log("[LOBBY]: Successfully received", data);
     playerSendSuccess(data.uuid);
+  }
+});
+
+export async function OpenWebSocket() {
+  console.log("[LOBBY - SOCKET]: Opening WebSocket Connection...");
+  try {
+    await connection.start();
+    console.log("[LOBBY - SOCKET]: Connected");
+  } catch (error) {
+    console.warn(`[LOBBY - SOCKET]: Error Connecting to backend: ${error}`);
   }
 }
 
-const socket = createSocket(wsAuthUri,handleMessage);
-
-export function openWebsocket() {
-  console.log("[SOCKET - LOBBY]: Opening Websocket");
-  socket.connect();
-}
-
-export function SendMessage(message) {
-  return socket.send(message);
+export async function SendMessage(message) {
+  if (connection.state !== signalR.HubConnectionState.Connected) {
+    console.warn("[LOBBY - SOCKET]: Not connected, message dropped:", message);
+    return;
+  }
+  try {
+    //TODO this needs to be determined what it will be called
+    return connection.invoke("SubmitLobbyMessage", message);
+  } catch (error) {
+    console.warn("[LOBBY - SOCKET]: Send Failure: ", error);
+  }
 }

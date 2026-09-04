@@ -1,11 +1,11 @@
-import { SendMessage, openWebsocket } from "./network/lobbyWebManager.js";
+import { SendMessage, OpenWebSocket } from "./network/lobbyWebManager.js";
 import { playerManager } from "./playerManager.js";
 import { Player } from "./player.js";
 
 let username;
 let role;
 
-openWebsocket();
+OpenWebSocket();
 
 export function playerSendSuccess (uuid) {
   let player = new Player(username, role, null ,uuid);
