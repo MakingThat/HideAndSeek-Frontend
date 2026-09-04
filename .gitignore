@@ -87,3 +87,6 @@ http-client.private.env.json
 .idea/**/copilot.data.migration.*.xml
 
 node_modules/
+
+.DS_store
+# stupid mac hidden file
