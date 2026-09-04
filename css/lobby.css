@@ -98,7 +98,14 @@ section {
   color: #777;
 }
 
-.required-mark {
+.field input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+#required-mark {
   color: #ff3b3b;
   font-weight: bold;
 }

@@ -23,7 +23,7 @@
     <h1>Lobby</h1>
 
     <label class="field">
-      <span>Username <span class="required-mark" aria-hidden="true">*</span></span>
+      <span>Username <span id="required-mark" aria-hidden="true">*</span></span>
       <input type="text" id="lobbyUsername" placeholder="username" required>
     </label>
 
@@ -41,7 +41,7 @@
     <div class="form-group">
       <h2>Reconnect</h2>
       <div class="button-box reconnect-row">
-        <input type="text" id="lobbyCode" placeholder="1234" required>
+        <label for="lobbyCode"></label><input type="text" id="lobbyCode" placeholder="1234" required>
         <button id="rejoin"><i class="ti ti-arrow-right" aria-hidden="true"></i>Join</button>
       </div>
     </div>
